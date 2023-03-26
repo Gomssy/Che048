@@ -4,36 +4,49 @@ using UnityEngine;
 
 public class Checker : MonoBehaviour
 {
-    public CheckerEnum curPlayer { get; set; }
+    public CheckerEnum curChecker { get; set; }
     public Coordinate coord { get; set; }
     public Piece curPiece { get; set; }
 
     public void OnMouseDown()
     {
-        Spawn(PieceEnum.Pawn);
+        if(curChecker == CheckerEnum.Empty)
+            Spawn(PieceEnum.Pawn);
+    }
+
+    public void MovePiece(Checker _checker)
+    {
+        if(this ==  _checker) return;
+
+        curPiece.transform.position = _checker.transform.position;
+        _checker.curChecker = curChecker;
+        _checker.curPiece = curPiece;
+
+        curChecker = CheckerEnum.Empty;
+        curPiece = null;
+    }
+
+    public void RemovePiece()
+    {
+        Destroy(curPiece.gameObject);
+        curChecker = CheckerEnum.Empty;
+        curPiece= null;
     }
 
     private void Spawn(PieceEnum pieceEnum)
     {
         GameObject piece = GameManager.Inst.GetPiece(pieceEnum);
         curPiece = Instantiate(piece, transform.position, Quaternion.identity).GetComponent<Piece>();
+
+        curChecker = GameManager.Inst.checker;
+        curPiece.Init(GameManager.Inst.checker);
     }
 }
 
 public enum CheckerEnum
 {
-    Black,
     White,
+    Black,
     Empty
 }
 
-public enum PieceEnum
-{
-    Pawn,
-    Rook,
-    Knight,
-    Bishop,
-    Queen,
-    King,
-    Empty
-}

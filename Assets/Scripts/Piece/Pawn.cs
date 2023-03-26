@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Piece : MonoBehaviour
+public class Pawn : Piece
 {
-    public PieceEnum pieceType;
+
 }

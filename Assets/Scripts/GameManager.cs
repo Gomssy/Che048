@@ -2,18 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
 
-    public static GameManager Inst;
     [SerializeField]
     private List<GameObject> piecePrefab = new();
     private Dictionary<PieceEnum, GameObject> pieceDict = new();
-
-    private void Awake()
-    {
-        Inst = this;
-    }
+    public CheckerEnum checker = CheckerEnum.White;
 
     void Start()
     {
@@ -27,6 +22,14 @@ public class GameManager : MonoBehaviour
     {
         if (pieceEnum == PieceEnum.Empty) return null;
         return pieceDict[pieceEnum];
+    }
+
+    public void ChangeTurn()
+    {
+        if (checker == CheckerEnum.White)
+            checker = CheckerEnum.Black;
+        else
+            checker = CheckerEnum.White;
     }
 
 }
