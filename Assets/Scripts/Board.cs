@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Board : MonoBehaviour
+public class Board : Singleton<Board>
 {
     [SerializeField]
     private GameObject boardPrefab;
-    private Checker[,] boardState;
+    public Checker[,] boardState;
 
     int[] dx = new int[] { 0, 1, 0, -1 };
     int[] dy = new int[] { -1, 0, 1, 0 };
@@ -15,39 +15,43 @@ public class Board : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Init();
+        boardState = GameManager.Inst.boardState;
+        Init();        
     }
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.W))
         {
+            Debug.Log("Up");
             Slide(Dir.Up);
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
+            Debug.Log("Down");
             Slide(Dir.Down);
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
+            Debug.Log("Left");
             Slide(Dir.Left);
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
+            Debug.Log("Right");
             Slide(Dir.Right);
         }
     }
 
     private void Init()
     {
-        boardState = new Checker[4, 4];
-
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 8; i++)
         {
-            for(int j = 0; j < 4; j++)
+            for(int j = 0; j < 8; j++)
             {
                 Vector2 pos = new Vector2(i, j);
                 boardState[i, j] = Instantiate(boardPrefab, pos, Quaternion.identity, transform).GetComponent<Checker>();
+                boardState[i, j].name = "(" + i + "," + j + ")";
                 boardState[i, j].coord = new Coordinate(i, j);
                 boardState[i, j].curChecker = CheckerEnum.Empty;
                 boardState[i, j].curPiece = null;
@@ -58,7 +62,7 @@ public class Board : MonoBehaviour
                 }
             }
         }
-        transform.position = new Vector3(-1.5f, -1.5f, 0);
+        transform.position = new Vector3(-3.5f, -3.5f, 0);
     }
 
     public void Slide(Dir dir)
@@ -66,16 +70,16 @@ public class Board : MonoBehaviour
         int _dx = dx[(int)dir];
         int _dy = dy[(int)dir];
 
-        for (int i = _dx < 0 ? 0 : 3; _dx < 0 ? i < 4 : i > -1; i -= _dx != 0 ? _dx : 1)
+        for (int i = _dx < 0 ? 0 : 7; _dx < 0 ? i < 8 : i > -1; i -= _dx != 0 ? _dx : 1)
         {
-            for (int j = _dy < 0 ? 0 : 3; _dy < 0 ? j < 4 : j > -1; j -= _dy != 0 ? _dy : 1)
+            for (int j = _dy < 0 ? 0 : 7; _dy < 0 ? j < 8 : j > -1; j -= _dy != 0 ? _dy : 1)
             {
-                if (i + _dx < 0 || i + _dx > 3 || j + _dy < 0 || j + _dy > 3) continue;
+                if (i + _dx < 0 || i + _dx > 7 || j + _dy < 0 || j + _dy > 7) continue;
 
                 if (boardState[i, j].curChecker == CheckerEnum.Empty) continue;
 
                 int temp = 1;
-                while (i + _dx * temp > -1 && i + _dx * temp < 4 && j + _dy * temp > -1 && j + _dy * temp < 4 && boardState[i + _dx * temp, j + _dy * temp].curPiece == null)
+                while (i + _dx * temp > -1 && i + _dx * temp < 8 && j + _dy * temp > -1 && j + _dy * temp < 8 && boardState[i + _dx * temp, j + _dy * temp].curPiece == null)
                 {
                     temp++;
                 }
@@ -84,7 +88,7 @@ public class Board : MonoBehaviour
                 int nx = i + _dx * (temp - 1);
                 int ny = j + _dy * (temp - 1);
 
-                if (nx + _dx < 0 || nx + _dx > 3 || ny + _dy < 0 || ny + _dy > 3) continue;
+                if (nx + _dx < 0 || nx + _dx > 7 || ny + _dy < 0 || ny + _dy > 7) continue;
                 if (boardState[nx + _dx, ny + _dy].curPiece.pieceType != boardState[nx, ny].curPiece.pieceType) continue;
 
                 if (boardState[nx + _dx, ny + _dy].curChecker == boardState[nx, ny].curChecker)
@@ -109,17 +113,35 @@ public class Board : MonoBehaviour
         GameObject piece = GameManager.Inst.GetPiece(p1.pieceType + 1);
         Piece res = Instantiate(piece, p1.transform.position, Quaternion.identity).GetComponent<Piece>();
         res.Init(p1.checker);
+        res.coord = p1.coord;
         Destroy(p1.gameObject);
         Destroy(p2.gameObject);
 
         return res;
     }
+
+    public void HighlightMovable(List<Coordinate> coordList)
+    {
+        if (coordList == null) return;
+        foreach(var coord in coordList)
+        {
+            Debug.Log(boardState[coord.X, coord.Y].name);
+            boardState[coord.X, coord.Y].Highlight(Color.yellow);
+        }
+        GameManager.Inst.isHighlighted = true;
+    }
+
+    public void ResetHighlight()
+    {
+        for(int i = 0; i < 8; i++)
+        {
+            for(int j = 0; j < 8; j++)
+            {
+                boardState[i, j].Highlight((i + j) % 2 == 0 ? new Color(200 / 255f, 200 / 255f, 200 / 255f) : new Color(60 / 255f, 60 / 255f, 60 / 255f));
+            }
+        }
+        GameManager.Inst.isHighlighted = false;
+    }
 }
 
-public enum Dir
-{
-    Down,
-    Right,
-    Up,
-    Left
-}
+

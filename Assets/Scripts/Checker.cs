@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Checker : MonoBehaviour
 {
-    public CheckerEnum curChecker { get; set; }
+    public CheckerEnum curChecker;
     public Coordinate coord { get; set; }
-    public Piece curPiece { get; set; }
+    public Piece curPiece;
+    private SpriteRenderer sp;
 
+    private void Start()
+    {
+        sp = GetComponent<SpriteRenderer>();
+    }
     public void OnMouseDown()
     {
         if(curChecker == CheckerEnum.Empty)
@@ -19,6 +24,7 @@ public class Checker : MonoBehaviour
         if(this ==  _checker) return;
 
         curPiece.transform.position = _checker.transform.position;
+        curPiece.coord = _checker.coord;
         _checker.curChecker = curChecker;
         _checker.curPiece = curPiece;
 
@@ -39,14 +45,15 @@ public class Checker : MonoBehaviour
         curPiece = Instantiate(piece, transform.position, Quaternion.identity).GetComponent<Piece>();
 
         curChecker = GameManager.Inst.checker;
-        curPiece.Init(GameManager.Inst.checker);
-    }
-}
 
-public enum CheckerEnum
-{
-    White,
-    Black,
-    Empty
+        curPiece.coord = coord;
+        curPiece.Init(GameManager.Inst.checker);
+
+    }
+
+    public void Highlight(Color color)
+    {
+        sp.color = color;
+    }
 }
 

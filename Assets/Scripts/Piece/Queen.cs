@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class Queen : Piece
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Init(CheckerEnum _checker)
     {
-        
-    }
+        base.Init(_checker);
 
-    // Update is called once per frame
-    void Update()
-    {
+        diff = new List<Coordinate>()
+        {
+            new Coordinate(0,1),
+            new Coordinate(1,0),
+            new Coordinate(0,-1),
+            new Coordinate(-1,0),
+            new Coordinate(1,1),
+            new Coordinate(1,-1),
+            new Coordinate(-1,1),
+            new Coordinate(-1,-1)
+        };
+        range = 3;
     }
 }

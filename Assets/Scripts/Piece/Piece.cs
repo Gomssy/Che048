@@ -8,21 +8,56 @@ public abstract class Piece : MonoBehaviour
     public CheckerEnum checker;
     [SerializeField]
     Sprite[] spriteList = new Sprite[2];
+    public Coordinate coord;
 
-    public void Init(CheckerEnum _checker)
+    protected List<Coordinate> diff;
+    protected int range;
+
+    public virtual void Init(CheckerEnum _checker)
     {
         checker = _checker;
         GetComponent<SpriteRenderer>().sprite = spriteList[(int)checker];
     }
 
-}
-public enum PieceEnum
-{
-    Pawn,
-    Rook,
-    Knight,
-    Bishop,
-    Queen,
-    King,
-    Empty
+    public List<Coordinate> MovableCoord()
+    {
+        List<Coordinate> res = new();
+
+        for(int i = 0; i < diff.Count; i++)
+        {
+            for(int j = 1; j  <range + 1; j++)
+            {
+                Coordinate tempCoord = coord + diff[i]*j;
+                if (tempCoord.X < 0 || tempCoord.Y < 0 || tempCoord.X > 7 || tempCoord.Y > 7) continue;
+
+                if (!GameManager.Inst.PieceExist(tempCoord))
+                {
+                    res.Add(tempCoord);
+                }
+                else if (GameManager.Inst.OppoPieceExist(tempCoord, checker))
+                {
+                    res.Add(tempCoord);
+                    break;
+                }
+                else
+                    break;
+
+            }
+        }
+
+        return res;
+    }
+
+    private void OnMouseDown()
+    {
+        if (GameManager.Inst.isHighlighted)
+            Board.Inst.ResetHighlight();
+        if(GameManager.Inst.selected == this)
+        {
+            GameManager.Inst.selected = null;
+            return;
+        }
+        GameManager.Inst.selected = this;
+        Board.Inst.HighlightMovable(MovableCoord());
+    }
 }

@@ -10,6 +10,14 @@ public class GameManager : Singleton<GameManager>
     private Dictionary<PieceEnum, GameObject> pieceDict = new();
     public CheckerEnum checker = CheckerEnum.White;
 
+    public Checker[,] boardState;
+    public bool isHighlighted = false;
+    public Piece selected = null;
+
+    private void Awake()
+    {
+        boardState = new Checker[8, 8];
+    }
     void Start()
     {
         foreach (var piece in piecePrefab)
@@ -30,6 +38,16 @@ public class GameManager : Singleton<GameManager>
             checker = CheckerEnum.Black;
         else
             checker = CheckerEnum.White;
+    }
+
+    public bool PieceExist(Coordinate coord)
+    {
+        return boardState[coord.X, coord.Y].curChecker != CheckerEnum.Empty;
+    }
+
+    public bool OppoPieceExist(Coordinate coord, CheckerEnum checker)
+    {
+        return boardState[coord.X, coord.Y].curChecker != checker && boardState[coord.X, coord.Y].curChecker != CheckerEnum.Empty;
     }
 
 }

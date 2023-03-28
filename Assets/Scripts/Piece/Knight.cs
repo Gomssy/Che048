@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Knight : Piece
-{
-    // Start is called before the first frame update
-    void Start()
+{    public override void Init(CheckerEnum _checker)
     {
-        
-    }
+        base.Init(_checker);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        diff = new List<Coordinate>()
+        {
+            new Coordinate(1,2),
+            new Coordinate(1,-2),
+            new Coordinate(2,1),
+            new Coordinate(2,-1),
+            new Coordinate(-1,2),
+            new Coordinate(-1,-2),
+            new Coordinate(-2,1),
+            new Coordinate(-2,-1)
+        };
+        range = 1;
     }
 }

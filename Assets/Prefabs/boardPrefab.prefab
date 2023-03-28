@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5108794728243762705}
   - component: {fileID: 5108794728243762710}
   - component: {fileID: 348886374861424658}
-  - component: {fileID: 4101421460388814429}
+  - component: {fileID: -8359562763733264609}
   m_Layer: 0
   m_Name: boardPrefab
   m_TagString: Untagged
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b42da74fd3e1414396c1e57bb8c7000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &4101421460388814429
+--- !u!61 &-8359562763733264609
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
