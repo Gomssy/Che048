@@ -15,8 +15,52 @@ public class Checker : MonoBehaviour
     }
     public void OnMouseDown()
     {
+        if (GameManager.Inst.playerActed) return;
+
+        if(GameManager.Inst.selected != null)
+        {
+            Piece temp = GameManager.Inst.selected;
+            foreach(var movable in GameManager.Inst.movableList)
+            {
+                if(movable.X == coord.X && movable.Y == coord.Y)
+                {
+                    //이동한 위치에 상대 기물이 있다면 제거
+                    if (GameManager.Inst.boardState[movable.X, movable.Y].curChecker != CheckerEnum.Empty)
+                    {
+                        GameManager.Inst.boardState[movable.X, movable.Y].RemovePiece();
+                    }
+                    GameManager.Inst.boardState[temp.coord.X, temp.coord.Y].MovePiece(this);
+                    Board.Inst.ResetHighlight();
+                    GameManager.Inst.selected = null;
+                    GameManager.Inst.movableList = null;
+
+                    GameManager.Inst.playerActed = true;
+                    CanvasManager.Inst.SetTurnEndButton();
+                }
+            }
+            return;
+        }
+
         if(curChecker == CheckerEnum.Empty)
-            Spawn(PieceEnum.Pawn);
+        {
+            if(GameManager.Inst.checker == CheckerEnum.White)
+            {
+                if (GameManager.Inst.white_idx > 15) return;
+                Spawn(GameManager.Inst.spawnList[GameManager.Inst.white_idx++]);
+
+                GameManager.Inst.playerActed = true;
+                CanvasManager.Inst.SetTurnEndButton();
+            }
+            else
+            {
+                if (GameManager.Inst.black_idx > 15) return;
+                Spawn(GameManager.Inst.spawnList[GameManager.Inst.black_idx++]);
+
+                GameManager.Inst.playerActed = true;
+                CanvasManager.Inst.SetTurnEndButton();
+            }
+            CanvasManager.Inst.UpdateNextPieceImage();
+        }
     }
 
     public void MovePiece(Checker _checker)

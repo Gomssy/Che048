@@ -20,4 +20,9 @@ public class King : Piece
         };
         range = 1;
     }
+
+    private void OnDestroy()
+    {
+        GameManager.Inst.GameOver(checker == CheckerEnum.White ? CheckerEnum.Black : CheckerEnum.White);
+    }
 }

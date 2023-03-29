@@ -21,25 +21,31 @@ public class Board : Singleton<Board>
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.W))
+        if (GameManager.Inst.playerActed) return;
+
+        if (Input.GetKeyDown(KeyCode.W))
         {
-            Debug.Log("Up");
             Slide(Dir.Up);
+            GameManager.Inst.playerActed = true;
+            CanvasManager.Inst.SetTurnEndButton();
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            Debug.Log("Down");
             Slide(Dir.Down);
+            GameManager.Inst.playerActed = true;
+            CanvasManager.Inst.SetTurnEndButton();
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
-            Debug.Log("Left");
             Slide(Dir.Left);
+            GameManager.Inst.playerActed = true;
+            CanvasManager.Inst.SetTurnEndButton();
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            Debug.Log("Right");
             Slide(Dir.Right);
+            GameManager.Inst.playerActed = true;
+            CanvasManager.Inst.SetTurnEndButton();
         }
     }
 
@@ -111,9 +117,13 @@ public class Board : Singleton<Board>
     public Piece JoinPiece(Piece p1, Piece p2)
     {
         GameObject piece = GameManager.Inst.GetPiece(p1.pieceType + 1);
-        Piece res = Instantiate(piece, p1.transform.position, Quaternion.identity).GetComponent<Piece>();
-        res.Init(p1.checker);
-        res.coord = p1.coord;
+        Piece res = null;
+        if (piece != null)
+        {
+            res = Instantiate(piece, p1.transform.position, Quaternion.identity).GetComponent<Piece>();
+            res.Init(p1.checker);
+            res.coord = p1.coord;
+        }
         Destroy(p1.gameObject);
         Destroy(p2.gameObject);
 
@@ -125,10 +135,8 @@ public class Board : Singleton<Board>
         if (coordList == null) return;
         foreach(var coord in coordList)
         {
-            Debug.Log(boardState[coord.X, coord.Y].name);
             boardState[coord.X, coord.Y].Highlight(Color.yellow);
         }
-        GameManager.Inst.isHighlighted = true;
     }
 
     public void ResetHighlight()
@@ -140,7 +148,6 @@ public class Board : Singleton<Board>
                 boardState[i, j].Highlight((i + j) % 2 == 0 ? new Color(200 / 255f, 200 / 255f, 200 / 255f) : new Color(60 / 255f, 60 / 255f, 60 / 255f));
             }
         }
-        GameManager.Inst.isHighlighted = false;
     }
 }
 

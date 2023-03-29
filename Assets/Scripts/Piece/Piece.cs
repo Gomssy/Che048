@@ -50,14 +50,21 @@ public abstract class Piece : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (GameManager.Inst.checker != checker) return;
+        if (GameManager.Inst.playerActed) return;
+
         if (GameManager.Inst.isHighlighted)
+        {
             Board.Inst.ResetHighlight();
-        if(GameManager.Inst.selected == this)
+            GameManager.Inst.movableList = null;
+        }
+        if (GameManager.Inst.selected == this)
         {
             GameManager.Inst.selected = null;
             return;
         }
         GameManager.Inst.selected = this;
+        GameManager.Inst.movableList = MovableCoord();
         Board.Inst.HighlightMovable(MovableCoord());
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -11,8 +12,19 @@ public class GameManager : Singleton<GameManager>
     public CheckerEnum checker = CheckerEnum.White;
 
     public Checker[,] boardState;
-    public bool isHighlighted = false;
+    public bool isHighlighted
+    {
+        get => selected != null;
+    }
     public Piece selected = null;
+
+    public int white_idx = 0;
+    public int black_idx = 0;
+
+    public List<Coordinate> movableList;
+    public List<PieceEnum> spawnList;
+
+    public bool playerActed = false;
 
     private void Awake()
     {
@@ -38,6 +50,23 @@ public class GameManager : Singleton<GameManager>
             checker = CheckerEnum.Black;
         else
             checker = CheckerEnum.White;
+
+        playerActed = false;
+        CanvasManager.Inst.SetTurnEndButton();
+
+        for(int i = 0; i < 8; i++)
+        {
+            for(int j = 0; j < 8; j++)
+            {
+                if (boardState[i, j].curChecker == CheckerEnum.Empty) continue;
+                else if (boardState[i,j].curChecker == checker)
+                {
+                    boardState[i, j].curPiece.GetComponent<BoxCollider2D>().enabled = true;
+                }
+                else
+                    boardState[i, j].curPiece.GetComponent<BoxCollider2D>().enabled = false;
+            }
+        }
     }
 
     public bool PieceExist(Coordinate coord)
@@ -50,4 +79,8 @@ public class GameManager : Singleton<GameManager>
         return boardState[coord.X, coord.Y].curChecker != checker && boardState[coord.X, coord.Y].curChecker != CheckerEnum.Empty;
     }
 
+    public void GameOver(CheckerEnum checker)
+    {
+        Debug.Log(checker.ToString() + " Win");
+    }
 }
