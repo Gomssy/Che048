@@ -28,11 +28,11 @@ public class CanvasManager : Singleton<CanvasManager>
 
     void Start()
     {
-        playerTurnText.text = "Current Player : " + GameManager.Inst.checker.ToString();
+        playerTurnText.text = "Current Player\n" + GameManager.Inst.checker.ToString();
         turnEndButton.AddListener(() =>
         {
             GameManager.Inst.ChangeTurn();
-            playerTurnText.text = "Current Player : " + GameManager.Inst.checker.ToString();
+            playerTurnText.text = "Current Player\n" + GameManager.Inst.checker.ToString();
         });
 
         gameRestartButton.AddListener(() =>
@@ -76,7 +76,7 @@ public class CanvasManager : Singleton<CanvasManager>
 
     public void ResetUI()
     {
-        playerTurnText.text = "Current Player : " + GameManager.Inst.checker.ToString();
+        playerTurnText.text = "Current Player\n" + GameManager.Inst.checker.ToString();
         whiteNext.enabled = true;
         blackNext.enabled = true;
         SetTurnEndButton();
