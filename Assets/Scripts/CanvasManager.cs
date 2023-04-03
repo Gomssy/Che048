@@ -19,6 +19,13 @@ public class CanvasManager : Singleton<CanvasManager>
     [SerializeField]
     Image blackNext;
 
+    [SerializeField]
+    TextMeshProUGUI winText;
+    [SerializeField]
+    ClickUI gameRestartButton;
+    [SerializeField]
+    RectTransform resultPanel;
+
     void Start()
     {
         playerTurnText.text = "Current Player : " + GameManager.Inst.checker.ToString();
@@ -27,6 +34,13 @@ public class CanvasManager : Singleton<CanvasManager>
             GameManager.Inst.ChangeTurn();
             playerTurnText.text = "Current Player : " + GameManager.Inst.checker.ToString();
         });
+
+        gameRestartButton.AddListener(() =>
+        {
+            GameManager.Inst.ResetGame();
+            resultPanel.gameObject.SetActive(false);
+        });
+
     }
 
     public void SetTurnEndButton()
@@ -37,7 +51,35 @@ public class CanvasManager : Singleton<CanvasManager>
 
     public void UpdateNextPieceImage()
     {
-        whiteNext.sprite = whiteList[(int)GameManager.Inst.spawnList[GameManager.Inst.white_idx]];
-        blackNext.sprite = blackList[(int)GameManager.Inst.spawnList[GameManager.Inst.black_idx]];
+        if (GameManager.Inst.white_idx > 15)
+        {
+            whiteNext.sprite = null;
+            whiteNext.enabled = false;
+        }
+        else
+            whiteNext.sprite = whiteList[(int)GameManager.Inst.spawnList[GameManager.Inst.white_idx]];
+
+        if (GameManager.Inst.black_idx > 15)
+        {
+            blackNext.sprite = null;
+            blackNext.enabled = false;
+        }
+        else
+            blackNext.sprite = blackList[(int)GameManager.Inst.spawnList[GameManager.Inst.black_idx]];
+    }
+
+    public void ShowResult(CheckerEnum winner)
+    {
+        resultPanel.gameObject.SetActive(true);
+        winText.text = $"{winner.ToString()} Win";
+    }
+
+    public void ResetUI()
+    {
+        playerTurnText.text = "Current Player : " + GameManager.Inst.checker.ToString();
+        whiteNext.enabled = true;
+        blackNext.enabled = true;
+        SetTurnEndButton();
+        UpdateNextPieceImage();
     }
 }

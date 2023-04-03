@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8493758106335712904}
   - component: {fileID: 7004953762378558484}
-  - component: {fileID: 9125084291293179102}
   - component: {fileID: 8450590728558287315}
+  - component: {fileID: -7256190476065134403}
   m_Layer: 0
   m_Name: Queen
   m_TagString: Untagged
@@ -86,23 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &9125084291293179102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1362441879836130360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 750a1bf4978ef0c4aaa221e07c947834, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pieceType: 4
-  checker: 1
-  spriteList:
-  - {fileID: 1380283374, guid: edf1726de925cb44f853703bdea4500f, type: 3}
-  - {fileID: 712866936, guid: edf1726de925cb44f853703bdea4500f, type: 3}
 --- !u!61 &8450590728558287315
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -129,3 +112,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.88888884, y: 0.89}
   m_EdgeRadius: 0
+--- !u!114 &-7256190476065134403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362441879836130360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c5b8b23c961b2b44a6a0fd589135da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pieceType: 4
+  checker: 0
+  spriteList:
+  - {fileID: 1380283374, guid: edf1726de925cb44f853703bdea4500f, type: 3}
+  - {fileID: 712866936, guid: edf1726de925cb44f853703bdea4500f, type: 3}

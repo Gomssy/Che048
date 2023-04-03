@@ -19,6 +19,6 @@ public class Queen : Piece
             new Coordinate(-1,1),
             new Coordinate(-1,-1)
         };
-        range = 3;
+        range = 8;
     }
 }

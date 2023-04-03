@@ -26,6 +26,11 @@ public class GameManager : Singleton<GameManager>
 
     public bool playerActed = false;
 
+    public bool isGameOver = false;
+
+    [SerializeField]
+    public Transform pieces;
+
     private void Awake()
     {
         boardState = new Checker[8, 8];
@@ -79,8 +84,35 @@ public class GameManager : Singleton<GameManager>
         return boardState[coord.X, coord.Y].curChecker != checker && boardState[coord.X, coord.Y].curChecker != CheckerEnum.Empty;
     }
 
-    public void GameOver(CheckerEnum checker)
+    public void GameOver(CheckerEnum winner)
     {
-        Debug.Log(checker.ToString() + " Win");
+        isGameOver = true;
+        CanvasManager.Inst.ShowResult(winner);
+    }
+
+    public void ResetGame()
+    {
+        selected = null;
+        movableList = null;
+        white_idx = 0;
+        black_idx = 0;
+        playerActed = false;
+        checker = CheckerEnum.White;
+
+        for(int i = 0; i < 8; i++)
+        {
+            for(int j = 0; j < 8; j++)
+            {
+                boardState[i, j].curChecker = CheckerEnum.Empty;
+                boardState[i, j].curPiece = null;
+            }
+        }
+        foreach(var piece in pieces.GetComponentsInChildren<Transform>())
+        {
+            if (piece == pieces) continue;
+            Destroy(piece.gameObject);
+        }
+        CanvasManager.Inst.ResetUI();
+        isGameOver = false;
     }
 }

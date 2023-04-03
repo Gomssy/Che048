@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8493758106335712904}
   - component: {fileID: 7004953762378558484}
-  - component: {fileID: 9125084291293179102}
   - component: {fileID: 308309687864535637}
+  - component: {fileID: 8015541966850483649}
   m_Layer: 0
   m_Name: Rook
   m_TagString: Untagged
@@ -86,23 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &9125084291293179102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1362441879836130360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 750a1bf4978ef0c4aaa221e07c947834, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pieceType: 1
-  checker: 1
-  spriteList:
-  - {fileID: -362641067, guid: edf1726de925cb44f853703bdea4500f, type: 3}
-  - {fileID: -302832067, guid: edf1726de925cb44f853703bdea4500f, type: 3}
 --- !u!61 &308309687864535637
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -129,3 +112,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.88888884, y: 0.89}
   m_EdgeRadius: 0
+--- !u!114 &8015541966850483649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362441879836130360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d86ab6f1564d449a5f43d4d650de8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pieceType: 1
+  checker: 0
+  spriteList:
+  - {fileID: -362641067, guid: edf1726de925cb44f853703bdea4500f, type: 3}
+  - {fileID: -302832067, guid: edf1726de925cb44f853703bdea4500f, type: 3}

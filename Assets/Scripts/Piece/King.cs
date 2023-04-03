@@ -23,6 +23,8 @@ public class King : Piece
 
     private void OnDestroy()
     {
+        if (GameManager.Inst.isGameOver) return;
+        Debug.Log(GameManager.Inst.isGameOver);
         GameManager.Inst.GameOver(checker == CheckerEnum.White ? CheckerEnum.Black : CheckerEnum.White);
     }
 }

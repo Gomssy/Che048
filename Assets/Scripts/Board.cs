@@ -21,7 +21,7 @@ public class Board : Singleton<Board>
 
     private void Update()
     {
-        if (GameManager.Inst.playerActed) return;
+        if (GameManager.Inst.playerActed || GameManager.Inst.isGameOver) return;
 
         if (Input.GetKeyDown(KeyCode.W))
         {
@@ -120,7 +120,7 @@ public class Board : Singleton<Board>
         Piece res = null;
         if (piece != null)
         {
-            res = Instantiate(piece, p1.transform.position, Quaternion.identity).GetComponent<Piece>();
+            res = Instantiate(piece, p1.transform.position, Quaternion.identity, GameManager.Inst.pieces).GetComponent<Piece>();
             res.Init(p1.checker);
             res.coord = p1.coord;
         }
