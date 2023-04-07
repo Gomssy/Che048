@@ -21,29 +21,33 @@ public class Board : Singleton<Board>
 
     private void Update()
     {
-        if (GameManager.Inst.playerActed || GameManager.Inst.isGameOver) return;
+        if (GameManager.Inst.playerActed || GameManager.Inst.isGameOver || !GameManager.Inst.TurnPhase) return;
 
         if (Input.GetKeyDown(KeyCode.W))
         {
             Slide(Dir.Up);
+            GameManager.Inst.TurnPhase = false;
             GameManager.Inst.playerActed = true;
             CanvasManager.Inst.SetTurnEndButton();
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
             Slide(Dir.Down);
+            GameManager.Inst.TurnPhase = false;
             GameManager.Inst.playerActed = true;
             CanvasManager.Inst.SetTurnEndButton();
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
             Slide(Dir.Left);
+            GameManager.Inst.TurnPhase = false;
             GameManager.Inst.playerActed = true;
             CanvasManager.Inst.SetTurnEndButton();
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
             Slide(Dir.Right);
+            GameManager.Inst.TurnPhase = false;
             GameManager.Inst.playerActed = true;
             CanvasManager.Inst.SetTurnEndButton();
         }

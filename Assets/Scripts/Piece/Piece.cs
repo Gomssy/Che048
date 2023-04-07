@@ -51,7 +51,7 @@ public abstract class Piece : MonoBehaviour
     private void OnMouseDown()
     {
         if (GameManager.Inst.checker != checker) return;
-        if (GameManager.Inst.playerActed) return;
+        if (GameManager.Inst.playerActed || !GameManager.Inst.TurnPhase) return;
 
         if (GameManager.Inst.isHighlighted)
         {

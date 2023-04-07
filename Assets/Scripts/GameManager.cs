@@ -31,6 +31,17 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     public Transform pieces;
 
+    // False when spawnPhase, true when movePhase
+    private bool turnPhase = false;
+    public bool TurnPhase
+    {
+        get => turnPhase;
+        set
+        {
+            turnPhase = value;
+        }
+    }
+
     private void Awake()
     {
         boardState = new Checker[8, 8];
@@ -58,8 +69,9 @@ public class GameManager : Singleton<GameManager>
 
         playerActed = false;
         CanvasManager.Inst.SetTurnEndButton();
+        CanvasManager.Inst.ShowPhase();
 
-        for(int i = 0; i < 8; i++)
+        for (int i = 0; i < 8; i++)
         {
             for(int j = 0; j < 8; j++)
             {

@@ -26,11 +26,17 @@ public class CanvasManager : Singleton<CanvasManager>
     [SerializeField]
     RectTransform resultPanel;
 
+    [SerializeField]
+    TextMeshProUGUI moveText;
+    [SerializeField]
+    TextMeshProUGUI spawnText;
+
     void Start()
     {
         playerTurnText.text = "Current Player\n" + GameManager.Inst.checker.ToString();
         turnEndButton.AddListener(() =>
         {
+            if (!GameManager.Inst.playerActed) return;
             GameManager.Inst.ChangeTurn();
             playerTurnText.text = "Current Player\n" + GameManager.Inst.checker.ToString();
         });
@@ -40,7 +46,7 @@ public class CanvasManager : Singleton<CanvasManager>
             GameManager.Inst.ResetGame();
             resultPanel.gameObject.SetActive(false);
         });
-
+        ShowPhase();
     }
 
     public void SetTurnEndButton()
@@ -66,6 +72,13 @@ public class CanvasManager : Singleton<CanvasManager>
         }
         else
             blackNext.sprite = blackList[(int)GameManager.Inst.spawnList[GameManager.Inst.black_idx]];
+    }
+
+    public void ShowPhase()
+    {
+        bool phase = GameManager.Inst.TurnPhase;
+        moveText.color = phase ? Color.green : Color.white;
+        spawnText.color = phase ? Color.white : Color.green;
     }
 
     public void ShowResult(CheckerEnum winner)
