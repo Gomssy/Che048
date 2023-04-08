@@ -76,9 +76,9 @@ public class CanvasManager : Singleton<CanvasManager>
 
     public void ShowPhase()
     {
-        bool phase = GameManager.Inst.TurnPhase;
-        moveText.color = phase ? Color.green : Color.white;
-        spawnText.color = phase ? Color.white : Color.green;
+        int phase = GameManager.Inst.TurnPhase;
+        moveText.color = phase < 1 ? Color.green : Color.white;
+        spawnText.color = phase < 2 ? Color.green : Color.white;
     }
 
     public void ShowResult(CheckerEnum winner)

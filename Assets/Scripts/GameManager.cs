@@ -32,13 +32,14 @@ public class GameManager : Singleton<GameManager>
     public Transform pieces;
 
     // False when spawnPhase, true when movePhase
-    private bool turnPhase = false;
-    public bool TurnPhase
+    private int turnPhase = 0;
+    public int TurnPhase
     {
         get => turnPhase;
         set
         {
             turnPhase = value;
+            CanvasManager.Inst.ShowPhase();
         }
     }
 
@@ -68,6 +69,7 @@ public class GameManager : Singleton<GameManager>
             checker = CheckerEnum.White;
 
         playerActed = false;
+        turnPhase = 0;
         CanvasManager.Inst.SetTurnEndButton();
         CanvasManager.Inst.ShowPhase();
 

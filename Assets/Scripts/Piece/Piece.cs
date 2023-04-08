@@ -32,7 +32,8 @@ public abstract class Piece : MonoBehaviour
 
                 if (!GameManager.Inst.PieceExist(tempCoord))
                 {
-                    res.Add(tempCoord);
+                    if(this.pieceType != PieceEnum.Pawn)
+                        res.Add(tempCoord);
                 }
                 else if (GameManager.Inst.OppoPieceExist(tempCoord, checker))
                 {
@@ -51,7 +52,7 @@ public abstract class Piece : MonoBehaviour
     private void OnMouseDown()
     {
         if (GameManager.Inst.checker != checker) return;
-        if (GameManager.Inst.playerActed || !GameManager.Inst.TurnPhase) return;
+        if (GameManager.Inst.playerActed || GameManager.Inst.TurnPhase > 1) return;
 
         if (GameManager.Inst.isHighlighted)
         {

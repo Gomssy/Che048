@@ -17,7 +17,7 @@ public class Checker : MonoBehaviour
     {
         if (GameManager.Inst.playerActed || GameManager.Inst.isGameOver) return;
 
-        if(GameManager.Inst.selected != null && GameManager.Inst.TurnPhase)
+        if(GameManager.Inst.selected != null && GameManager.Inst.TurnPhase < 1)
         {
             Piece temp = GameManager.Inst.selected;
             foreach(var movable in GameManager.Inst.movableList)
@@ -34,15 +34,13 @@ public class Checker : MonoBehaviour
                     GameManager.Inst.selected = null;
                     GameManager.Inst.movableList = null;
 
-                    GameManager.Inst.playerActed = true;
-                    CanvasManager.Inst.SetTurnEndButton();
-                    GameManager.Inst.TurnPhase = false;
+                    GameManager.Inst.TurnPhase = 1;
                 }
             }
             return;
         }
 
-        if(curChecker == CheckerEnum.Empty && !GameManager.Inst.TurnPhase)
+        if(curChecker == CheckerEnum.Empty && GameManager.Inst.TurnPhase < 2)
         {
             if(GameManager.Inst.checker == CheckerEnum.White)
             {
@@ -54,9 +52,10 @@ public class Checker : MonoBehaviour
                 if (GameManager.Inst.black_idx > 15) return;
                 Spawn(GameManager.Inst.spawnList[GameManager.Inst.black_idx++]);
             }
-            GameManager.Inst.TurnPhase = true;
+            GameManager.Inst.TurnPhase = 2;
+            GameManager.Inst.playerActed = true;
+            CanvasManager.Inst.SetTurnEndButton();
             CanvasManager.Inst.UpdateNextPieceImage();
-            CanvasManager.Inst.ShowPhase();
         }
     }
 

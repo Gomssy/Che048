@@ -21,35 +21,27 @@ public class Board : Singleton<Board>
 
     private void Update()
     {
-        if (GameManager.Inst.playerActed || GameManager.Inst.isGameOver || !GameManager.Inst.TurnPhase) return;
+        if (GameManager.Inst.playerActed || GameManager.Inst.isGameOver || GameManager.Inst.TurnPhase > 0) return;
 
         if (Input.GetKeyDown(KeyCode.W))
         {
             Slide(Dir.Up);
-            GameManager.Inst.TurnPhase = false;
-            GameManager.Inst.playerActed = true;
-            CanvasManager.Inst.SetTurnEndButton();
+            GameManager.Inst.TurnPhase = 1;
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
             Slide(Dir.Down);
-            GameManager.Inst.TurnPhase = false;
-            GameManager.Inst.playerActed = true;
-            CanvasManager.Inst.SetTurnEndButton();
+            GameManager.Inst.TurnPhase = 1;
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
             Slide(Dir.Left);
-            GameManager.Inst.TurnPhase = false;
-            GameManager.Inst.playerActed = true;
-            CanvasManager.Inst.SetTurnEndButton();
+            GameManager.Inst.TurnPhase = 1;
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
             Slide(Dir.Right);
-            GameManager.Inst.TurnPhase = false;
-            GameManager.Inst.playerActed = true;
-            CanvasManager.Inst.SetTurnEndButton();
+            GameManager.Inst.TurnPhase = 1;
         }
     }
 
@@ -107,12 +99,6 @@ public class Board : Singleton<Board>
 
                     boardState[nx, ny].curPiece = null;
                     boardState[nx, ny].curChecker = CheckerEnum.Empty;
-                }
-                else
-                {
-                    //shoud destroy lower one
-                    boardState[nx + _dx, ny + _dy].RemovePiece();
-                    boardState[nx, ny].MovePiece(boardState[nx + _dx, ny + _dy]);
                 }
             }
         }
